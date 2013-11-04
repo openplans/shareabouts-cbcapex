@@ -1,11 +1,11 @@
 # Settings for the app
 app:
   # HTML Title
-  title: Shareabouts
+  title: Where Should City Government Spend Our Tax Dollars?
   # Header name
-  name: Shareabouts
+  name: Where Should City Government Spend Our Tax Dollars?
   # Meta description that will show up in Google search results
-  meta_description: _(Shareabouts is a mapping tool to gather crowd sourced public input. Use it to collect suggested locations and comments in a social, engaging process.)
+  meta_description:  "Capital budget requests for Manhattan CB7 district"
 
   # When the map loads, existing places will be loaded in chunks. By default,
   # the size of the chunks will be a reasonable default dictated by the API
@@ -18,150 +18,177 @@ map:
   geolocation_onload: false
   options:
     center:
-      lat: 39.9523524
-      lng: -75.1636075
-    zoom: 14
-    minZoom: 10
+      lat: 40.74589142365044
+      lng: -73.97523880004883
+    zoom: 17
+    minZoom: 14
     maxZoom: 17
   layers:
-    - url: http://{s}.tiles.mapbox.com/v3/openplans.map-dmar86ym/{z}/{x}/{y}.png
+    - url: http://{s}.tiles.mapbox.com/v3/openplans.map-w29s5fls/{z}/{x}/{y}.png
       attribution: '&copy; OpenStreetMap contributors, CC-BY-SA. <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
-    - url: /static/data/philadelphia.geojson
+    - url: /static/data/communityboards.geojson
       type: json
       rules:
-        - condition: 'true'
+        - condition: '{{BoroCD}} === 106'
           style:
-            color: "#444"
+            color: "#fff"
             opacity: 0.6
-            fillOpacity: 0.2
+            fillOpacity: 0
+            weight: 1
+        - condition: '{{BoroCD}} !== 106'
+          style:
+            color: "#000"
+            opacity: 0.6
+            fillOpacity: 0.5
             weight: 1
 
 # The keys show up in the dropdown list when you are adding a new place
 # The values map the place type to map icons (defined below).
 place_types:
-  landmark:
-    label: _(Landmark)
+  building:
+    label: _(Building/Facility Need)
     rules:
-      - condition: '"{{location_type}}" === "landmark"'
-        # Display landmarks as icons
-
+      - condition: '"{{location_type}}" === "building"'
         icon:
-          iconUrl: /static/css/images/markers/dot-0d85e9.png
-          iconSize:
-            width: 17
-            height: 18
-          iconAnchor: [9, 9]
+          iconUrl: /static/css/images/building.png
+          shadowUrl: /static/css/images/shadow-square.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
         focus_icon:
-          iconUrl: /static/css/images/markers/marker-0d85e9.png
-          shadowUrl: /static/css/images/marker-shadow.png
-          iconSize:
-            width: 25
-            height: 41
-          shadowSize:
-            width: 41
-            height: 41
-          iconAnchor: [12, 41]
-
-        # style:
-        #   color: '#0d85e9'
-        #   radius: 8
-        #   weight: 1
-        #   opacity: 0.9
-        #   fillOpacity: 0.4
-        # focus_style:
-        #   color: '#0d85e9'
-        #   radius: 16
-        #   weight: 1
-        #   opacity: 0.9
-        #   fillOpacity: 0.4
-
+          iconUrl: /static/css/images/building.png
+          shadowUrl: /static/css/images/shadow-square-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+  building-approved:
+    label: _(Approved Building/Facility)
+    rules:
+      - condition: '"{{location_type}}" === "building-approved"'
+        icon:
+          iconUrl: /static/css/images/building-gold.png
+          shadowUrl: /static/css/images/shadow-square-gold.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+        focus_icon:
+          iconUrl: /static/css/images/building-gold.png
+          shadowUrl: /static/css/images/shadow-square-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+  building-rejected:
+    label: _(Rejected Building/Facility)
+    rules:
+      - condition: '"{{location_type}}" === "building-rejected"'
+        icon:
+          iconUrl: /static/css/images/building-gray.png
+          shadowUrl: /static/css/images/shadow-square.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+        focus_icon:
+          iconUrl: /static/css/images/building-gray.png
+          shadowUrl: /static/css/images/shadow-square-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+  street:
+    label: _(Roadway/Streetscape Need)
+    rules:
+      - condition: '"{{location_type}}" === "street"'
+        icon:
+          iconUrl: /static/css/images/cone.png
+          shadowUrl: /static/css/images/shadow-square.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+        focus_icon:
+          iconUrl: /static/css/images/cone.png
+          shadowUrl: /static/css/images/shadow-square-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+  street-approved:
+    label: _(Approved Roadway/Streetscape)
+    rules:
+      - condition: '"{{location_type}}" === "street-approved"'
+        icon:
+          iconUrl: /static/css/images/cone-gold.png
+          shadowUrl: /static/css/images/shadow-square-gold.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+        focus_icon:
+          iconUrl: /static/css/images/cone-gold.png
+          shadowUrl: /static/css/images/shadow-square-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+  street-rejected:
+    label: _(Rejected Roadway/Streetscape)
+    rules:
+      - condition: '"{{location_type}}" === "street-rejected"'
+        icon:
+          iconUrl: /static/css/images/cone-gray.png
+          shadowUrl: /static/css/images/shadow-square.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+        focus_icon:
+          iconUrl: /static/css/images/cone-gray.png
+          shadowUrl: /static/css/images/shadow-square-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
   park:
-    label: _(Park)
+    label: _(Park/Open Space Need)
     rules:
       - condition: '"{{location_type}}" === "park"'
-        # Show parks that are points as icons...
-
         icon:
-          iconUrl: /static/css/images/markers/dot-4bbd45.png
-          iconSize:
-            width: 17
-            height: 18
-          iconAnchor: [9, 9]
+          iconUrl: /static/css/images/tree.png
+          shadowUrl: /static/css/images/shadow-round.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
         focus_icon:
-          iconUrl: /static/css/images/markers/marker-4bbd45.png
-          shadowUrl: /static/css/images/marker-shadow.png
-          iconSize:
-            width: 25
-            height: 41
-          shadowSize:
-            width: 41
-            height: 41
-          iconAnchor: [12, 41]
-
-        # ...and parks that are polygons as shapes.
-
-        style:
-          color: '#4bbd45'
-          radius: 8
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
-        focus_style:
-          color: '#4bbd45'
-          radius: 16
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
-
-  school:
-    label: _(School)
+          iconUrl: /static/css/images/tree.png
+          shadowUrl: /static/css/images/shadow-round-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+  park-approved:
+    label: _(Approved Park/Open Space)
     rules:
-      - condition: '"{{location_type}}" === "school" && {{submission_sets.comments.length}} > 0'
-        # Display schools as circles
-
-        # icon:
-        #   iconUrl: /static/css/images/markers/dot-f95016.png
-        #   iconSize:
-        #     width: 17
-        #     height: 18
-        #   iconAnchor: [9, 9]
-        # focus_icon:
-        #   iconUrl: /static/css/images/markers/marker-f95016.png
-        #   shadowUrl: /static/css/images/marker-shadow.png
-        #   iconSize:
-        #     width: 25
-        #     height: 41
-        #   shadowSize:
-        #     width: 41
-        #     height: 41
-        #   iconAnchor: [12, 41]
-
-        style:
-          color: '#f95016'
-          radius: 8
-          weight: 4
-          opacity: 0.9
-          fillOpacity: 0.4
-        focus_style:
-          color: '#f95016'
-          radius: 16
-          weight: 4
-          opacity: 0.9
-          fillOpacity: 0.4
-      - condition: '"{{location_type}}" === "school"'
-        style:
-          color: '#f95016'
-          radius: 8
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
-        focus_style:
-          color: '#f95016'
-          radius: 16
-          weight: 1
-          opacity: 0.9
-          fillOpacity: 0.4
-
+      - condition: '"{{location_type}}" === "park-approved"'
+        icon:
+          iconUrl: /static/css/images/tree-gold.png
+          shadowUrl: /static/css/images/shadow-round-gold.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+        focus_icon:
+          iconUrl: /static/css/images/tree-gold.png
+          shadowUrl: /static/css/images/shadow-round-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+  park-rejected:
+    label: _(Rejected Park/Open Space)
+    rules:
+      - condition: '"{{location_type}}" === "park-rejected"'
+        icon:
+          iconUrl: /static/css/images/tree-gray.png
+          shadowUrl: /static/css/images/shadow-round.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
+        focus_icon:
+          iconUrl: /static/css/images/tree-gray.png
+          shadowUrl: /static/css/images/shadow-round-white.png
+          iconSize: [31, 32]
+          shadowSize: [31, 32]
+          iconAnchor: [16, 25]
 
 activity:
   # Optional. Activity is supported by default. Set to false to disable.
@@ -171,56 +198,51 @@ activity:
 
 place:
   adding_supported: true
-  add_button_label: _(Add a Place)
-  action_text: _(added)
-  title: _(Tell us more...)
-  action_text: _(created)
-  anonymous_name: _(Someone)
-  submit_button_label: _(Submit)
+  add_button_label: Identify a need
+  title: Provide more information
+  action_text: identified
+  anonymous_name: Someone
+  submit_button_label: Add to map
   items:
-    - prompt: _(Location Name)
-      type: text
-      name: name
-      attrs:
-        - key: placeholder
-          value: _(Location Name)
-        - key: size
-          value: 30
-    - prompt: _(Location Type)
+    - prompt: Type of need
       type: select
       options:
-        - label: _(Landmark)
-          value: landmark
-        - label: _(Park)
+        - label: _(Building/Facility Need)
+          value: building
+        - label: _(Roadway/Streetscape Need)
+          value: street
+        - label: _(Park/Open Space Need)
           value: park
-        - label: _(School)
-          value: school
       name: location_type
-    - prompt: _(Image)
-      inputfile_label: _(Add an Image)
-      type: file
-      name: my_image
-      optional: true
-      attrs:
-        - key: accept
-          value: image/*
-    - prompt: _(Description)
-      type: textarea
-      name: description
-      optional: true
-      attrs:
-        - key: placeholder
-          value: _(Description...)
-    - prompt: _(Your Name)
+    - prompt: _(Short description of the need)
       type: text
-      name: submitter_name
-      optional: true
+      name: project_title
+      optional: false
       attrs:
-        - key: placeholder
-          value: _(Name)
         - key: size
           value: 30
-
+        - key: placeholder
+          value: _(What and where?)
+    - prompt: _(Explain more about the need)
+      type: textarea
+      name: description
+      optional: false
+      attrs:
+        - key: placeholder
+          value: Explain the need.
+    - prompt: Your Name
+      type: text
+      name: submitter_name
+      optional: false
+      attrs:
+        - key: size
+          value: 30
+    - prompt: _(Your Email (will not be shown on the map))
+      type: text
+      name: private-email
+      attrs:
+        - key: size
+          value: 30
 survey:
   submission_type: comments
 
@@ -251,19 +273,11 @@ support:
   anonymous_name: _(Someone)
 
 pages:
-  - title: _(About)
-    slug: about
-    name: overview
+  - title: _(Welcome)
+    slug: welcome
+    name: welcome
     start_page: true
 
-  - title: _(Why Shareabouts?)
-    slug: why
-    url: /static/pages/why.html
-
-  - title: _(Features)
-    slug: features
-    url: /static/pages/features.html
-
-  - title: _(GitHub)
-    external: true
-    url: https://github.com/openplans/shareabouts
+  - title: _(About)
+    slug: overview
+    url: overview
