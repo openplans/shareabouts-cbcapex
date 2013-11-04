@@ -21,8 +21,8 @@ map:
       lat: 40.74589142365044
       lng: -73.97523880004883
     zoom: 17
-    minZoom: 14
-    maxZoom: 17
+    minZoom: 15
+    maxZoom: 18
   layers:
     - url: http://{s}.tiles.mapbox.com/v3/openplans.map-w29s5fls/{z}/{x}/{y}.png
       attribution: '&copy; OpenStreetMap contributors, CC-BY-SA. <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
