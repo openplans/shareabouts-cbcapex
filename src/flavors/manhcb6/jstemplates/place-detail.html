@@ -2,13 +2,14 @@
 
   <header class="place-header clearfix">
     <h1>{{ project_title }}</h1>
-    <span class="place-submission-details">
+   
       
       {{# year }}
-      <p>Requested by {{ submitter_name }} in <span class="submission-year">{{ year }}</span>.</p>
+      <p>Requested by {{ ../submitter_name }} in <span class="submission-year">{{ ../year }}</span>.</p>
       {{/year }}
       
       {{^year }}
+       <span class="place-submission-details">
       Identified by 
       {{#_}}<strong class="point-submitter">
         {{#if submitter}}
@@ -19,25 +20,25 @@
         {{/if}}
         {{/_}}
       </strong>
-       {{/year }}
        
-
       <time datetime="{{ created_datetime }}" class="response-date">{{ pretty_created_datetime }}</time>
-    </span>
+      </span>
+      {{/year }}
+    
   </header>
 
   <section class="place-items">
 
     <p><strong>Request type</strong> {{ place_type_label }}.</p>
 
-    {{# status }}
-    <p><span class="submission-status">{{ status }}</span></p>
-    {{/status }}
-
     <p><strong>Description</strong> {{ description }}</p>
 
+    {{# status }}
+    <p><strong>Status</strong> <span class="submission-status">{{ ../status }}</span></p>
+    {{/status }}
+    
     {{# agency }}
-    <p><strong>Responsible agency</strong> <span class="submission-agency">{{ agency }}</span></p>
+    <p><strong>Responsible agency</strong> <span class="submission-agency">{{ ../agency }}</span></p>
     {{/agency }}
     
   </section>
