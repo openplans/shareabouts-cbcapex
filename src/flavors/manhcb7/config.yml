@@ -5,7 +5,7 @@ app:
   # Header name
   name: Where Should City Government Spend Our Tax Dollars?
   # Meta description that will show up in Google search results
-  meta_description:  "Capital budget requests for Manhattan CB6 district"
+  meta_description:  "Capital budget requests for Manhattan CB7 district"
 
   # When the map loads, existing places will be loaded in chunks. By default,
   # the size of the chunks will be a reasonable default dictated by the API
@@ -18,9 +18,9 @@ map:
   geolocation_onload: false
   options:
     center:
-      lat: 40.74589142365044
-      lng: -73.97523880004883
-    zoom: 17
+      lat: 40.7986718502665
+      lng: -73.97232055664062
+    zoom: 16
     minZoom: 15
     maxZoom: 18
   layers:
@@ -29,13 +29,13 @@ map:
     - url: /static/data/communityboards.geojson
       type: json
       rules:
-        - condition: '{{BoroCD}} === 106'
+        - condition: '{{BoroCD}} === 107'
           style:
             color: "#fff"
             opacity: 0.6
             fillOpacity: 0
             weight: 1
-        - condition: '{{BoroCD}} !== 106'
+        - condition: '{{BoroCD}} !== 107'
           style:
             color: "#000"
             opacity: 0.6
