@@ -1,9 +1,9 @@
 # Settings for the app
 app:
   # HTML Title
-  title: Where Should City Government Spend Our Tax Dollars?
+  title: Put Your Money Where Your Map Is
   # Header name
-  name: Where Should City Government Spend Our Tax Dollars?
+  name: Put Your Money Where Your Map Is
   # Meta description that will show up in Google search results
   meta_description:  "Capital budget requests for the Brooklyn CB6 district"
   
@@ -19,9 +19,9 @@ map:
   options:
     center:
       lat: 40.68304631549296
-      lng: -73.99699687957764
-    zoom: 16
-    minZoom: 15
+      lng: -73.97699687957764
+    zoom: 14
+    minZoom: 14
     maxZoom: 19
   layers:
     - url: http://{s}.tiles.mapbox.com/v3/openplans.map-uhk6289l/{z}/{x}/{y}.png
@@ -325,8 +325,8 @@ pages:
     slug: welcome
     name: welcome
     start_page: true
-  - title: Guidelines
-    slug: about
+  - title: How To Use
+    slug: how-to
     name: overview
   - title: Frequently Asked Questions
     slug: faq
