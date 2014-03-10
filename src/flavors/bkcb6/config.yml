@@ -234,70 +234,59 @@ activity:
 
 place:
   adding_supported: true
-  add_button_label: _(Add a Place)
-  action_text: _(added)
-  title: _(Tell us more...)
-  action_text: _(created)
+  add_button_label: _(Identify a need)
+  title: _(Provide more information)
+  action_text: _(identified)
   anonymous_name: _(Someone)
-  submit_button_label: _(Submit)
+  submit_button_label: _(Add to map)
   items:
-    - prompt: _(Your Name)
-      type: text
-      name: submitter_name
-      optional: true
-      attrs:
-        - key: placeholder
-          value: _(Name)
-        - key: size
-          value: 30
-    - prompt: _(Your Email)
-      type: text
-      name: private-submitter_email
-      optional: true
-      attrs:
-        - key: placeholder
-          value: _(Email address)
-        - key: size
-          value: 30
-    - prompt: _(Location Name)
-      type: text
-      name: name
-      attrs:
-        - key: placeholder
-          value: _(Location Name)
-        - key: size
-          value: 30
-        - key: required
-    - prompt: _(Location Type)
+    - prompt: Type of need
       type: select
       options:
-        - label: _(Choose One)
-          value: ''
-        - label: _(Landmark)
-          value: landmark
-        - label: _(Park)
+        - label: _(Building/Facility Need)
+          value: building
+        - label: _(Roadway/Streetscape Need)
+          value: street
+        - label: _(Park/Open Space Need)
           value: park
-        - label: _(School)
-          value: school
       name: location_type
+    - prompt: _(District wide?)
+      type: checkbox
+      name: district-wide
       attrs:
-        - key: required
-    - prompt: _(Description)
+        - key: value
+          value: _(District Wide)
+        - key: label
+          value: _(District wide project)
+    - prompt: _(Short description of the need)
+      type: text
+      name: project_title
+      optional: false
+      attrs:
+        - key: size
+          value: 30
+        - key: placeholder
+          value: _(What and where?)
+    - prompt: _(Explain more about the need)
       type: textarea
       name: description
-      optional: true
+      optional: false
       attrs:
         - key: placeholder
-          value: _(Description...)
-    - prompt: _(Image)
-      inputfile_label: _(Add an Image)
-      type: file
-      name: my_image
-      optional: true
+          value: Explain the need.
+    - prompt: Your Name
+      type: text
+      name: submitter_name
+      optional: false
       attrs:
-        - key: accept
-          value: image/*
-
+        - key: size
+          value: 30
+    - prompt: _(Your Email (will not be shown on the map))
+      type: text
+      name: private-email
+      attrs:
+        - key: size
+          value: 30
 survey:
   submission_type: comments
 
@@ -325,37 +314,23 @@ survey:
 
 support:
   submission_type: support
-  submit_btn_text: _(Support)
+  submit_btn_text: _(Support This!)
   response_name: _(support)
   response_plural_name: _(supports)
   action_text: supported
   anonymous_name: _(Someone)
 
 pages:
-  - title: _(About)
+  - title: Welcome
+    slug: welcome
+    name: welcome
+    start_page: true
+  - title: Guidelines
     slug: about
     name: overview
-    # start_page: true
-
-  - title: _(Why Shareabouts?)
-    slug: why
-    url: /static/pages/why.html
-
-  - title: _(Features)
-    slug: features
-    url: /static/pages/features.html
-
-  - title: _(Links)
-    pages:
-      - title: _(Documentation)
-        external: true
-        url: https://github.com/openplans/shareabouts/tree/master/doc
-      - title: _(Issues)
-        external: true
-        url: https://github.com/openplans/shareabouts/issues
-      - title: _(GitHub)
-        external: true
-        url: https://github.com/openplans/shareabouts
+  - title: Frequently Asked Questions
+    slug: faq
+    name: faq
 
 notifications:
   on_new_place: true

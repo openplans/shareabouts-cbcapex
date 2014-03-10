@@ -1,0 +1,38 @@
+{{> place-detail-promotion-bar }}
+
+<header class="place-header clearfix">
+  <h1>{{ project_title }}</h1>
+</header>
+  
+<section class="place-items">
+  <p>Request type: {{ place_type_label location_type }}. {{#if district-wide}} This request is district wide.{{/if}}</p>
+
+  <p>
+  {{#if request-year }}
+  <p>Requested by {{ submitter_name }} in <span class="submission-year">{{ request-year }}</span>.</p>
+  
+  {{^ }}
+  <p>Identified by {{ submitter_name }} <time datetime="{{ created_datetime }}" class="response-date">{{ pretty_created_datetime }}</time>.
+ {{/if }}
+    
+  {{#if status }}
+  <p><span class="submission-status">{{ status }}</span></p>
+  {{/if }}
+  
+  <p><strong>Description</strong> {{ description }}</p>
+
+  {{#if agency }}
+  <p><strong>Responsible agency</strong> <span class="submission-agency">{{ agency }}</span></p>
+  {{/if }}
+  
+  {{#if agency-response }}
+  <p><strong>Agency response</strong> {{ agency-response }}</p>
+  {{/if }}
+  
+  </span>
+  
+  </section>
+
+{{#survey_config}}
+<section class="survey"></section>
+{{/survey_config}}
