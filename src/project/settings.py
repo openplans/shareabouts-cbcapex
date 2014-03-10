@@ -1,4 +1,5 @@
 # Django settings for project project.
+import datetime
 import os.path
 
 HERE = os.path.abspath(os.path.join(os.path.dirname(__file__)))
@@ -17,6 +18,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.dummy',
     }
 }
+
+ALLOWED_HOSTS = ['*']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -89,6 +92,17 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+
+    "project.context_processors.settings_context",
+)
+
 MIDDLEWARE_CLASSES = (
     'sa_web.middleware.CacheRequestBody',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -141,7 +155,7 @@ TEST_RUNNER = 'sa_web.test_runner.DatabaselessTestSuiteRunner'
 
 # Shareabouts flavor config
 SHAREABOUTS = {
-    'FLAVOR': 'default_config',
+    'FLAVOR': 'default',
     # The name of the flavor. Optional, but useful for using the default settings.
 
     'DATASET_ROOT': 'http://api.shareabouts.org/api/v1/datasets/demo-user/demo-data/',
@@ -177,6 +191,10 @@ LOGGING = {
         }
     },
     'handlers': {
+        'console': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'class': 'logging.StreamHandler',
+        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
@@ -187,6 +205,11 @@ LOGGING = {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
+            'propagate': True,
+        },
+        'sa_web': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
             'propagate': True,
         },
     }
@@ -205,6 +228,26 @@ if 'SHAREABOUTS_DATASET_ROOT' in env:
     SHAREABOUTS['DATASET_ROOT'] = env.get('SHAREABOUTS_DATASET_ROOT')
 if 'SHAREABOUTS_DATASET_KEY' in env:
     SHAREABOUTS['DATASET_KEY'] = env.get('SHAREABOUTS_DATASET_KEY')
+
+if 'EMAIL_ADDRESS' in env:
+    EMAIL_ADDRESS = env['EMAIL_ADDRESS']
+if 'EMAIL_HOST' in env:
+    EMAIL_HOST = env['EMAIL_HOST']
+if 'EMAIL_PORT' in env:
+    EMAIL_PORT = env['EMAIL_PORT']
+if 'EMAIL_USERNAME' in env:
+    EMAIL_HOST_USER = env['EMAIL_USERNAME']
+if 'EMAIL_PASSWORD' in env:
+    EMAIL_HOST_PASSWORD = env['EMAIL_PASSWORD']
+if 'EMAIL_USE_TLS' in env:
+    EMAIL_USE_TLS = env['EMAIL_USE_TLS']
+
+if 'EMAIL_NOTIFICATIONS_BCC' in env:
+    EMAIL_NOTIFICATIONS_BCC = env['EMAIL_NOTIFICATIONS_BCC'].split(',')
+
+
+# For sitemaps and caching -- will be a new value every time the server starts
+LAST_DEPLOY_DATE = datetime.datetime.now().replace(second=0, microsecond=0).isoformat()
 
 ##############################################################################
 # Local settings overrides

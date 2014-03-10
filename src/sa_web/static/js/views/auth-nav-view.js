@@ -6,7 +6,8 @@ var Shareabouts = Shareabouts || {};
   S.AuthNavView = Backbone.View.extend({
     events: {
       'click .internal-menu-item a': 'onLinkClick',
-      'click #nav-bttn': 'onMobileNavClick'
+      'click #nav-btn': 'onMobileNavClick',
+      'click #sign-in-btn': 'onAuthNavClick'
     },
 
     render: function() {
@@ -20,14 +21,20 @@ var Shareabouts = Shareabouts || {};
     onLinkClick: function(evt) {
       evt.preventDefault();
       // Hide mobile list when one is selected
-      $('.access').removeClass('expose');
+      $('.access').removeClass('is-exposed');
       // Load the content
       this.options.router.navigate(evt.target.getAttribute('href'), {trigger: true});
     },
 
     onMobileNavClick: function(evt) {
       evt.preventDefault();
-      $('.access').toggleClass('expose');
+      $('.access').toggleClass('is-exposed');
+    },
+
+    onAuthNavClick: function(evt) {
+      evt.preventDefault();
+      $('.sign-in-menu').toggleClass('is-exposed');
+      S.Util.log('USER', 'page-menu', ($('.sign-in-menu').hasClass('is-exposed') ? 'show' : 'hide') + '-auth');
     }
   });
 

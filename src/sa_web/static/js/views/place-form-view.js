@@ -1,4 +1,4 @@
-/*globals _ Spinner Handlebars Backbone jQuery */
+/*globals _ Spinner Handlebars Backbone jQuery Gatekeeper */
 
 var Shareabouts = Shareabouts || {};
 
@@ -21,6 +21,7 @@ var Shareabouts = Shareabouts || {};
       // Augment the model data with place types for the drop down
       var data = _.extend({
         place_config: this.options.placeConfig,
+        user_token: this.options.userToken,
         current_user: S.currentUser
       }, this.model.toJSON());
 
@@ -67,7 +68,7 @@ var Shareabouts = Shareabouts || {};
                 data = {
                   name: fieldName,
                   blob: blob,
-                  url: canvas.toDataURL('image/jpeg')
+                  file: canvas.toDataURL('image/jpeg')
                 };
 
             attachment = self.model.attachmentCollection.find(function(model) {
@@ -88,7 +89,7 @@ var Shareabouts = Shareabouts || {};
         });
       }
     },
-    onSubmit: function(evt) {
+    onSubmit: Gatekeeper.onValidSubmit(function(evt) {
       var router = this.options.router,
           model = this.model,
           // Should not include any files
@@ -101,10 +102,16 @@ var Shareabouts = Shareabouts || {};
       $button.attr('disabled', 'disabled');
       spinner = new Spinner(S.smallSpinnerOptions).spin(this.$('.form-spinner')[0]);
 
+      S.Util.log('USER', 'new-place', 'submit-place-btn-click');
+
       // Save and redirect
       this.model.save(attrs, {
         success: function() {
+          S.Util.log('USER', 'new-place', 'successfully-add-place');
           router.navigate('/place/' + model.id, {trigger: true});
+        },
+        error: function() {
+          S.Util.log('USER', 'new-place', 'fail-to-add-place');
         },
         complete: function() {
           $button.removeAttr('disabled');
@@ -112,7 +119,7 @@ var Shareabouts = Shareabouts || {};
         },
         wait: true
       });
-    }
+    })
   });
 
 }(Shareabouts, jQuery, Shareabouts.Util.console));

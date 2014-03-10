@@ -27,6 +27,13 @@ var Shareabouts = Shareabouts || {};
       // Bind click event to an action so that you can see it in a map
       this.$el.delegate('a', 'click', function(evt){
         evt.preventDefault();
+
+        // HACK! Each action should have its own view and bind its own events.
+        // A Marionette CompositeView/ItemView would be ideal. Until then...
+        var actionType = this.getAttribute('data-action-type'),
+            placeId = this.getAttribute('data-place-id');
+
+        S.Util.log('USER', 'action', 'click', actionType+' -- '+placeId);
         self.options.router.navigate(this.getAttribute('href'), {trigger: true});
       });
 
@@ -39,9 +46,20 @@ var Shareabouts = Shareabouts || {};
     },
 
     checkForNewActivity: function() {
-      var options = {};
+      var options = {
+            remove: false
+          },
+          meta = this.collection.metadata;
 
+      // The metadata will be reset to page 1 if a new action has been added.
+      // We need to cache the current page information so that when we will
+      // fetch to correct page when we scroll to the next break.
       options.complete = _.bind(function() {
+        // The total length may have changed, so don't overwrite it!
+        meta.length = this.collection.metadata.length;
+        this.collection.metadata = meta;
+        this.fetching = false;
+
         // After a check for activity has completed, no matter the result,
         // schedule another.
         if (this.newContentTimeout) {
@@ -50,7 +68,14 @@ var Shareabouts = Shareabouts || {};
         this.newContentTimeout = setTimeout(_.bind(this.checkForNewActivity, this), this.interval);
       }, this);
 
-      this.collection.fetch(options);
+      // Don't fetch new activity if we're in the middle of fetching a new page.
+      if (!this.fetching) {
+        this.fetching = true;
+        this.collection.fetch(options);
+      } else {
+        // Let's wait 5 seconds and try again.
+        this.newContentTimeout = setTimeout(_.bind(this.checkForNewActivity, this), 5000);
+      }
     },
 
     onScroll: function(evt) {
@@ -62,10 +87,10 @@ var Shareabouts = Shareabouts || {};
 
       if (shouldFetch && !self.fetching) {
         self.fetching = true;
-        this.collection.fetchNextPage({
-          success: function() { _.delay(notFetching, notFetchingDelay); },
-          error: function() {_.delay(notFetching, notFetchingDelay); }
-        });
+        this.collection.fetchNextPage(
+          function() { _.delay(notFetching, notFetchingDelay); },
+          function() { _.delay(notFetching, notFetchingDelay); }
+        );
       }
     },
 
@@ -91,6 +116,8 @@ var Shareabouts = Shareabouts || {};
       if (placeIdsToFetch.length > 0) {
         // Get the missing places and then render activity
         self.placeCollection.fetchByIds(placeIdsToFetch, {
+          // Check for a valid location type before adding it to the collection
+          validate: true,
           success: function() {
             self.render();
           }
@@ -168,6 +195,9 @@ var Shareabouts = Shareabouts || {};
       var placeUrl = actionModel.get('target').place,
           placeId, placeModel;
       options = options || {};
+
+      // Check for a valid location type before adding it to the collection
+      options.validate = true;
 
       if (placeUrl) {
         placeId = _.last(placeUrl.split('/'));
