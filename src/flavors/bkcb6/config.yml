@@ -235,6 +235,8 @@ activity:
 place:
   adding_supported: true
   add_button_label: _(Identify a need)
+  show_list_button_label: _(List All Places)
+  show_map_button_label: _(Show the Map)
   title: _(Provide more information)
   action_text: _(identified)
   anonymous_name: _(Someone)
