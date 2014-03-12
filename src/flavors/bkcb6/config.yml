@@ -285,6 +285,7 @@ place:
           value: 30
     - prompt: _(Your Email (will not be shown on the map))
       type: text
+      optional: false
       name: private-email
       attrs:
         - key: size
@@ -336,4 +337,4 @@ pages:
 
 notifications:
   on_new_place: true
-  submitter_email_field: private-submitter_email
+  submitter_email_field: "private-email"
