@@ -242,6 +242,14 @@ place:
   anonymous_name: _(Someone)
   submit_button_label: _(Add to map)
   items:
+    - prompt: Your Name
+      type: text
+      name: submitter_name
+      optional: false
+      attrs:
+        - key: size
+          value: 30
+        - key: required
     - prompt: Type of need
       type: select
       options:
@@ -277,14 +285,6 @@ place:
       attrs:
         - key: placeholder
           value: Explain the need.
-    - prompt: Your Name
-      type: text
-      name: submitter_name
-      optional: false
-      attrs:
-        - key: size
-          value: 30
-        - key: required
     - prompt: _(Your Email (will not be shown on the map))
       type: text
       optional: false
