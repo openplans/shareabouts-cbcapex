@@ -269,6 +269,7 @@ place:
           value: 30
         - key: placeholder
           value: _(What and where?)
+        - key: required
     - prompt: _(Explain more about the need)
       type: textarea
       name: description
@@ -283,6 +284,7 @@ place:
       attrs:
         - key: size
           value: 30
+        - key: required
     - prompt: _(Your Email (will not be shown on the map))
       type: text
       optional: false
@@ -290,6 +292,7 @@ place:
       attrs:
         - key: size
           value: 30
+        - key: required
 survey:
   submission_type: comments
 
